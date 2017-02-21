@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Crime Chart</title>
+    </head>
+    <body>
+        <h1>Crimes committeedw</h1>
+        <button id="submit">Submit</button>
+        <div id="results"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>    
+        $(function(){
+                
+            $("#submit").click(function(){
+                
+                var html = "";
+                
+                //  variable to hold the returned data
+                var inspections;
+                var url = "https://data.cityofchicago.org/resource/6zsd-86xi.json"
+                $.getJSON(url).done (function (data) {
+                        console.log(data);
+                        var assault = 0;
+                        var battery = 0;
+                        var theft = 0;
+                        var burglary = 0;
+                        var other = 0;
+                    $.each(data, function(index,value){
+                        if (value.primary_type == "ASSAULT"){
+                            assault++;
+                        } else if (value.primary_type == "BATTERY"){
+                            battery++;
+                        } else if (value.primary_type == "THEFT"){
+                            theft++;
+                        } else if (value.primary_type == "BURGLARY"){
+                            burglary++;
+                        } else {
+                            other ++;
+                        }
+                    })
+                google.charts.load('current', {'packages':['corechart']});
+                      google.charts.setOnLoadCallback(drawChart);
+                      function drawChart() {
+                
+                        var data = google.visualization.arrayToDataTable([
+                          ['Color', 'Number of times crime committed'],
+                          ['Assault', assault],
+                          ['Battery', battery],
+                          ['Theft',theft],
+                          ['Burglary', burglary],
+                          ['Other',other]
+                        ]);
+                
+                        var options = {
+                          title: 'Different crimes done'
+                        };
+                
+                        var chart = new google.visualization.PieChart(document.getElementById('results'));
+                
+                        chart.draw(data, options);
+                      }
+                    
+                })
+            })
+        })
+    </script>
+    </body>
+</html>
