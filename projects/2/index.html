@@ -5,43 +5,86 @@
   <title>jQuery.parseXML demo</title>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <style>
-
+      .s8195 {float:left;
+                  font-size:20px;    
+                  border: 6px solid black; padding: 7px; border-radius: 10px;
+                  background-color:lightgreen;
+                  margin-left:20px;
+        
+      }
+      .s8417 {float:right;
+                  font-size:20px;
+                  border: 6px solid black; padding: 7px; border-radius: 10px;
+                  background-color:lightgreen;
+                  margin-right:20px;
+        
+      }
+      .s8415 {float:right;
+                  font-size:20px;
+                  border: 6px solid black; padding: 7px; border-radius: 10px;
+                  background-color:lightgreen;
+                  margin-right:50px;
+        
+      }
+      .s8197 {float:left;
+                  font-size:20px;
+                  border: 6px solid black; padding: 7px; border-radius: 10px;
+                  background-color:lightgreen;
+                  margin-left:50px;
+        
+      }
+      body {
+        background-color:lightblue;
+      }
   </style>
 </head>
 <body>
       <h1>Bus tracker</h1>
-      <button onclick="myFunction()">Submit</button>
+
+      <div class="s8417">Western & Addison</br></div>
+      <div class="s8195">Western & Addison</br></div>
+      <div class="s8415">Western & Roscoe</br></div>
+      <div class="s8197">Western & Roscoe</br></div>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       
 
-      <script>
-      function myFunction() {
-          var rt = $(".route").val();
-          var rtdir =$("#routedir").val();
-      }
-      </script>
+  
       <script>
         $(function() {
           
-          
           var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
           
-          var apiEndpoint= "http://www.ctabustracker.com/bustime/api/v2/getpredictions&rt=X49&stpid=8417"
-          var rt = $(".route").value();
-          var rtdir =$("#routedir").value();
+          var apiEndpoint= "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
           $.ajax({
               url: apiPassThruUrl,
               dataType: "json",
               method: 'GET',
               data: {"apiEndpoint": apiEndpoint,
                       "key" : "M6twiGgbJhjATEYaRNsCGEEfN",
+                      "stpid" : "8417,8195,8197,8415",
                       "format":"json"}
             }).done (function (data) {
               console.log(data);
              
-              $.each(data["bustime-response"]["routes"], function(i,v) {
-                $("body").append("Route #" + v.rt + ", " + v.rtnm + " - " + v.prdtm + "<br>");
-                
+              $.each(data["bustime-response"]["prd"], function(i,v) {
+                var time = "";
+                if (v.prdctdn == "DUE") {
+                  time = "Due Now";
+                } else if (v.prdctdn == "DLY") {
+                  time = "Delayed" ;
+                } else {
+                  time = v.prdctdn + " Minutes";
+                }
+                 var html = (v.rtdir + " - Route #" + v.rt + " - " + time + "<br>");
+                if (v.stpid == "8417") {
+                  $(".s8417").append(html);
+                } else if (v.stpid == "8195") {
+                  $(".s8195").append(html);
+                } else if (v.stpid == "8415") {
+                  $(".s8415").append(html);
+                } else {
+                  $(".s8197").append(html);
+                }
               })
 
             });
