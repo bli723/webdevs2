@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cta Bus Tracker</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <style>
+      .s12569 {float:left;
+                  font-size:20px;    
+                  border: 6px solid black; padding: 7px; border-radius: 10px;
+                  background-color:lightgreen;
+                  margin-left:20px;
+                  width:25%;
+      }
+      .s12527 {float:right;
+                  font-size:20px;
+                  border: 6px solid black; padding: 7px; border-radius: 10px;
+                  background-color:lightgreen;
+                  margin-right:20px;
+                  width:25%;  
+      }
+      body {
+        background-color:lightblue;
+      }
+  </style>
+</head>
+<body>
+      <h1>Bus tracker</h1>
+
+      <div class="s12527">Addison & Western</br></div>
+      <div class="s12569">Addison & Western</br></div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      
+
+  
+      <script>
+        $(function() {
+          
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+          
+          var apiEndpoint= "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
+          $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: {"apiEndpoint": apiEndpoint,
+                      "key" : "M6twiGgbJhjATEYaRNsCGEEfN",
+                      "stpid" : "12527,12569",
+                      "format":"json"}
+            }).done (function (data) {
+              console.log(data);
+             
+              $.each(data["bustime-response"]["prd"], function(i,v) {
+                var time = "";
+                if (v.prdctdn == "DUE") {
+                  time = "Due Now";
+                } else if (v.prdctdn == "DLY") {
+                  time = "Delayed" ;
+                } else {
+                  time = v.prdctdn + " Minutes";
+                }
+                 var html = ("<br>" + v.rtdir + " - Route #" + v.rt + " - " + time + "<br>");
+                if (v.stpid == "12569") {
+                  $(".s12569").append(html);
+                } else {
+                  $(".s12527").append(html);
+                }
+              })
+
+            });
+        });
+            
+  
+</script>
+ 
+</body>
+</html>
