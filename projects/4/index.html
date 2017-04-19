@@ -7,10 +7,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <style>
         .screen {
-            display:none;
+          display:none;
         }
-        
-        
+        #screen1 h1 {
+          text-align:center;
+        }
+        table, td {
+          border: 1px solid black;
+        }
     </style>
   </head>
   <body>
@@ -34,20 +38,45 @@
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title">Title</span>
         <nav class="mdl-navigation">
-          <a id="link1" class="mdl-navigation__link" href="#">Link 1</a>
+          <a id="link1" class="mdl-navigation__link" href="#">Weather</a>
           <a id="link2" class="mdl-navigation__link" href="#">Link 2</a>
           <a id="link3" class="mdl-navigation__link" href="#">Link 3</a>
           <a class="mdl-navigation__link" href="">Link</a>
         </nav>
       </div>
       <main class="mdl-layout__content">
-        <div id="screen1" class="screen page-content">Screen 1</div>
+        <div id="screen1" class="screen page-content">
+          <h1>Weather</h1>
+          <table><tr><th>Day</th><th>Max Temp</th><th>Min Temp</th></tr>
+        </div>
         <div id="screen2" class="screen page-content">Screen 2</div>
         <div id="screen3" class="screen page-content">Screen 3</div>
       </main>
     </div>
     <script>
         $(function(){
+          var apiEndpoint= "http://api.openweathermap.org/data/2.5/weather?q=Chicago&units=Imperial&"
+          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+          
+              $.ajax({
+              url: apiPassThruUrl,
+              dataType: "json",
+              method: 'GET',
+              data: {"apiEndpoint": apiEndpoint,
+                      "APPID" : "6351e5e68d9ad9ec4325d69504a5b549",}
+            }).done (function (data) {
+              console.log(data);
+             
+              $.each(data, function(i,v) {
+                var html = ("<tr><td></td><td>$100</td></tr><tr><td>February</td><td>$80</td></tr></table>");
+                $("#screen1").append(html);  
+                });
+            })
+                    
+                 
+      
+
+        
             $("#screen1").show();
             $("#link1").on("click", function(){
                 $(".screen").hide();
@@ -60,8 +89,9 @@
             $("#link3").on("click", function(){
                 $(".screen").hide();
                 $("#screen3").show();
-            })
-        })
+            });
+      });
+                
     </script>
-  </body>
+    <body>
 </html>

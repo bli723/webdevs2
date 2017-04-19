@@ -129,7 +129,7 @@
     <script>
         $("#findCrime").click(function() {
             $("#output").empty();
-            var baseURL = "https://data.cityofchicago.org/resource/6zsd-86xi.json";
+            var baseURL = "https://.cityofchicago.org/resource/6zsd-86xi.json";
             var keywordCrimeType = $('#crimeType').val();
             var filters = "?primary_type=" + keywordCrimeType;
             var newURL = baseURL + filters;
