@@ -1,80 +1,107 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Cta Bus Tracker</title>
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <style>
-      .s8195 {float:left;
-                  font-size:20px;    
-                  border: 6px solid black; padding: 7px; border-radius: 10px;
-                  background-color:lightgreen;
-                  margin-left:20px;
-                  width:25%;
-      }
-      .s8417 {float:right;
-                  font-size:20px;
-                  border: 6px solid black; padding: 7px; border-radius: 10px;
-                  background-color:lightgreen;
-                  margin-right:20px;
-                  width:25%;  
-      }
-      body {
-        background-color:lightblue;
-      }
-      h1 {
-        background-color:lightblue;
-      }
+    .s8195 {
+      float: left;
+      font-size: 20px;
+      border: 6px solid black;
+      padding: 7px;
+      border-radius: 10px;
+      background-color: lightgreen;
+      margin-left: 20px;
+      width: 25%;
+    }
+    
+    .s8417 {
+      float: right;
+      font-size: 20px;
+      border: 6px solid black;
+      padding: 7px;
+      border-radius: 10px;
+      background-color: lightgreen;
+      margin-right: 20px;
+      width: 25%;
+    }
+    
+    body {
+      background-color: lightblue;
+    }
+    
+    a {
+      font-size: 40px;
+      color: black;
+      font-weight:bold;
+      float:left;
+    }
+    
+    a:visited {
+      color:black;
+    }
+    
+    div {
+      margin-top:80px;
+    }
   </style>
 </head>
+
 <body>
-<a href="index.html"><h1>Bus Tracker</h1></a>
+  <a href="index.html">Bus Tracker</a>
+  <div class="s8417">Western & Addison</br>
+  </div>
+  <div class="s8195">Western & Addison</br>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-      <div class="s8417">Western & Addison</br></div>
-      <div class="s8195">Western & Addison</br></div>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      
 
-  
-      <script>
-        $(function() {
-          
-          var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
-          
-          var apiEndpoint= "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
-          $.ajax({
-              url: apiPassThruUrl,
-              dataType: "json",
-              method: 'GET',
-              data: {"apiEndpoint": apiEndpoint,
-                      "key" : "M6twiGgbJhjATEYaRNsCGEEfN",
-                      "stpid" : "8417,8195",
-                      "format":"json"}
-            }).done (function (data) {
-              console.log(data);
-             
-              $.each(data["bustime-response"]["prd"], function(i,v) {
-                var time = "";
-                if (v.prdctdn == "DUE") {
-                  time = "Due Now";
-                } else if (v.prdctdn == "DLY") {
-                  time = "Delayed" ;
-                } else {
-                  time = v.prdctdn + " Minutes";
-                }
-                var html = ("<br>" + v.rtdir + " - Route #" + v.rt + " - " + time + "<br>");
-                if (v.stpid == "8417") {
-                  $(".s8417").append(html);
-                } else {
-                  $(".s8195").append(html);
-                }
-              })
 
-            });
-        });
-            
-  
-</script>
- 
+  <script>
+    $(function() {
+
+      var apiPassThruUrl = "https://polar-garden-75406.herokuapp.com/apiPassThru.php";
+
+      var apiEndpoint = "http://www.ctabustracker.com/bustime/api/v2/getpredictions"
+      $.ajax({
+        url: apiPassThruUrl,
+        dataType: "json",
+        method: 'GET',
+        data: {
+          "apiEndpoint": apiEndpoint,
+          "key": "M6twiGgbJhjATEYaRNsCGEEfN",
+          "stpid": "8417,8195",
+          "format": "json"
+        }
+      }).done(function(data) {
+        console.log(data);
+
+        $.each(data["bustime-response"]["prd"], function(i, v) {
+          var time = "";
+          if (v.prdctdn == "DUE") {
+            time = "Due Now";
+          }
+          else if (v.prdctdn == "DLY") {
+            time = "Delayed";
+          }
+          else {
+            time = v.prdctdn + " Minutes";
+          }
+          var html = ("<br>" + v.rtdir + " - Route #" + v.rt + " - " + time + "<br>");
+          if (v.stpid == "8417") {
+            $(".s8417").append(html);
+          }
+          else {
+            $(".s8195").append(html);
+          }
+        })
+
+      });
+    });
+  </script>
+
 </body>
+
 </html>
