@@ -1,0 +1,62 @@
+<html>
+    <head>
+    <title>Canvas Drawing</title>
+    <style>
+        canvas { 
+            border: black solid 5px;
+        }
+    </style>
+    </head>
+
+    <body>
+        <canvas width=550px height=350px id="myCanvas"></canvas>
+        <script>
+            var canvas = document.querySelector("#myCanvas");
+            var context = canvas.getContext("2d");
+            context.fillStyle = "skyblue";
+            context.fillRect(0, 0, 550, 350);
+            context.fillStyle= "blue";
+            context.moveTo(400,180);
+            context.lineTo(300,100);
+            context.lineTo(100,50);
+            context.lineTo(280,148);
+            context.lineTo(400,180);
+            context.closePath();
+            context.stroke();
+            context.fill();
+            context.beginPath();
+            context.moveTo(50,85);
+            context.lineTo(450,195);
+            context.lineTo(490,230);
+            context.lineTo(80,120);
+            context.lineTo(50,85);
+            context.closePath();
+            context.stroke();
+            context.fill();
+            context.beginPath();
+            context.moveTo(400,206.3);
+            context.lineTo(330,250);
+            context.lineTo(115,215);
+            context.lineTo(270,171.5);
+            context.closePath();
+            context.stroke();
+            context.fill();
+            context.beginPath();
+            context.moveTo(140,136);
+            context.lineTo(60,138);
+            context.arc(50,138,10,0, .75*Math.PI);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(156,141);
+            context.lineTo(67,154);
+            context.arc(57,154,10,0, .75*Math.PI);
+            context.stroke();
+            context.beginPath();
+            context.fillStyle="red";
+            context.moveTo(448,200);
+            context.arc(444,200, 4, 0, 2*Math.PI);
+            context.stroke();
+            context.fill();
+        </script>
+    </body>
+</html>
